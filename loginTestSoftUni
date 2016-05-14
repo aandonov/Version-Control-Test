@@ -1,0 +1,81 @@
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.firefox.FirefoxDriver;
+
+import java.util.concurrent.TimeUnit;
+
+/**
+ * Created by Phyton on 5.5.2016 г..
+ */
+public class SoftUniSiteTest {
+
+    private WebDriver driver;
+    private static final String LOGIN_USERNAME ="testtest";
+    private static final String LOGIN_PASSWORD ="testtest";
+
+    //before
+    @Before
+
+    public void setUp() {
+        //code executed before each test
+        this.driver = new FirefoxDriver();
+        this.driver.manage()
+                .timeouts()
+                .implicitlyWait(10, TimeUnit.SECONDS);
+        this.driver.manage().window().maximize();
+    }
+
+
+    @Test
+//test this
+    public void testLogin_validCredentials_expectedNavigationToProfile() {
+        this.driver.get("https://softuni.bg");
+        WebElement loginLink
+
+                = this.driver
+                .findElement(By.xpath("/html/body/div[2]/div[1]/header/nav/div[2]/ul/li[3]/span/a"));
+        loginLink.click();
+        WebElement usernameField
+                = this.driver
+                .findElement(By.id("LoginUserName"));
+        usernameField.sendKeys("LOGIN_USERNAME");
+
+        WebElement passwordField
+                = this.driver
+                .findElement(By.id("LoginPassword"));
+        passwordField.sendKeys("LOGIN_PASSWORD");
+
+        WebElement loginButton
+                = this.driver
+                .findElement(By.xpath("//input[@value='Вход']"));
+        loginButton.click();
+
+        WebElement LoggedUserName
+                =this.driver
+                .findElement(By.xpath("/html/body/div[3]/div[2]/div[1]/div/div[1]/div/div/div[1]/div/div[2]/h2/strong"));
+         String loggedUserNameText =LoggedUserName.getText().trim();
+        boolean expectedUsernameInBrackets = loggedUserNameText.endsWith("(" + LOGIN_USERNAME + ")");
+        Assert.assertTrue(expectedUsernameInBrackets);
+
+
+}
+
+    @Test
+//test this
+    public void testRegister_uniqueUsername_expected_SuccessfullLogin() {
+
+    }
+
+    @After
+
+    public void tearDown() {
+//what to happen after each test!
+        this.driver.quit();
+
+    }
+}

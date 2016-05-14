@@ -1,0 +1,93 @@
+Ot Visual Studio izbirame:
+
+Unit Test Project        Visual C#
+
+Pisem si ime na proekta i papkata syzdavame rabotnia plot.
+
+1.using System,
+2.using Microsoft.VisualStudio.TestTools.UnitTesting;
+3.
+4. namespace PaynerForumTests
+
+{
+      [ TestClass]
+      public class TestRegistration
+   {
+    //2.pravim si  nov driver  sled instalaciata koito go krystim "driver" izbirame go ot padasto menu pyrvia
+        private IWebDriver driver;
+        
+
+        [TestInitialize]
+        public void SetUp()
+    {
+         driver = new FirefoxDriver();
+         driver.Manage ().Window.Maximize();
+
+                   driver.Navigate().GoToUrl(" postaviame url-a na saita prilozenieto")
+
+                   var registerButton = driver.FindElement(By.Id("registerButton"));
+                   registerButton.Click();
+
+                   
+   }
+
+             [TestMethod]
+             public void TestSuccessfullRegister()     
+// 1. Pyrvo inicializirame driver seleniuma. ot  menu desen buton "Manage NuGet Packages"  i gore v tyrsa4kata pishem "webdriver" ,kato pusnem tyrsene ni izliza SeleniumWebDriver izbirame nego i go instalirame
+            {
+            var username = this.TryRegister("pesho", "pesho", "123");
+
+            driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(3));
+
+            var userNameToRegister = UserNameToRegister();
+
+            var greetingField = driver.FindElement(By.XPath( "/html/body/div/header/....//tuk sled kato vlezem v register form sys ime i parola ni izliza s nadpisgore s golemi bukvi "Welcome Pesho567" v slu4aia namirame go ot konzolata i kopirame s xpath i postaciame....."));
+                   
+                       Assert.AreEqual(
+                          "Welcome" + username ,
+                        greetingField.text
+
+             );
+
+          }
+
+
+                private string TryRegister(string username, string email, string password,string repeatPassword = null)
+             {
+           
+                
+                  var emailField = driver.FindElement(By.Id("email"));
+                  var usernameField = driver.FindElement(By.Id("userRegister"));   
+                  var passwordField = driver.FindElement(By.Id("passRegister"));
+                  var passwordRepeat = driver.FindElement(By.Id("passRepeat"));
+
+
+                   var usernameToRegister = username + DateTime.Now.Millisecond;
+                   emailField.SendKeys(email + DateTime.Now.Millisecond + "@abv.bg");
+                    usernameField.SendKeys(usernameToRegister);
+                   passwordField.SendKeys(password);
+                 
+                   if (repeatPassword != null)
+                   {
+                        passwordRepeat.SendKeys(repeatPassword);
+
+                    }
+                         
+                     else
+                   {
+                        passwordRepeat.SendKeys(password);
+
+                    }
+
+
+
+
+                   var submitButton = driver.FindElement(By.Id("submit")); //pisem id-to kato go vzimame ot consolata!!!
+                   submitButton.Click()
+
+                     
+                     return userNameToRegister;
+            
+         }
+     }
+}

@@ -1,0 +1,118 @@
+Design 
+
+1.White boxes does have no contrast
+2.White text on white background when registered loggin in
+3.Logo is not clickable.It shoud be link to home page
+4.Links in navigation does not seem as link (e.g. no underline)
+5.Table in who is online spills is out of range with bigger usernames/emails
+
+Security
+1.Email has validation only front end (neogani4en kato iniciali imeil pri vyvezdane v registracia na nov potrebitel  nevalidiran)
+2. User Id are shown in profile page
+3. Email shoud have mail sending verification
+4.Guest and registered users can view other user's mails in rankings
+5.Ranking accept parameters for sorting.Entering password shows user password /cykame "ranking" posle smeniame gore v adresa s "pasword" i avtomati4no sme lognati ! e gresno/
+6.User ID's shoud be GUID's not autoincrement integer /user ideto go vizdame na tvyrde mn mesta obsto kazano/
+7/ Can vote yourself by Ajax call /ot cozolata go testvame  s "downvoteTopinc" funkcia gore vdiasno,/
+8/ Can Edit others answers by ajax call. /ot cozolata go testvame , s   "editAnswer'' gore v praznoto pole/
+
+User acceptance
+1.Search results should list topic names
+
+2.No Warning for deletion - niama potvyrzdenie pri iztrivane
+3.When clicking "Answer" pages scrolls up.
+4.No forgotten pasword
+5.You shoud be not alowed to edit your username
+6 When username is editted the greeting still shows the old one
+
+7.No author - clickable,shoud be only "No posts yet"
+8.Mistake in everything abouR
+9. when navigating out of a page where user post topic/answer there is not cofirmation
+10.Navigation only works with topics (e.g who is online has no navigation )
+11.When clicking.
+12.Category header in the index does not lead to anywhere
+13.Posting neew topic and answer shoud have bbcodes and editor(probably CKEditor)
+14.New lines does not work in topic answers /pri vyvezdane na komentar ne raboti naov red, vsi4ko e na edin red/
+15. No indication about locked topics /nikyde ne pise 4e e zakliu4ena temata/
+16.Votes in user post/ topicare about overall user votes, not about a current topic/post
+17.Ranking cannot order by asc
+18."New topic" button shoud be in the header too
+19.Tags shoud not be present. if there are no tags /ne e nebhodimo da se pokazva tags i inicial ako takyv nene napisan vyveden/
+20.Search topic by criteria
+21 Topics are not sorted DESC(active)  /po posledna aktivnost . primerno kato cyknem razni vyv niakoi forum/
+22.No "My profile" page 
+
+
+Functional Bugs
+
+1.Cannot loggin with username containing (probably other special symbols)
+
+2.Cannot search by tags frof searchbar
+
+3.Cannot reopen own topic
+4.Users are not clickable  from topics and answers
+5. Clicking on category does not filter only its forums /kato kliknem ne filtrira kategoriite/
+6.Cannot navigate to "reading topic"and "users/logout" from who is online
+7.Guest  can  post answers.No (guest) is shown after the username
+8.Changing ID user profile shows guest instead of no such user
+9.Admin can not "delete'' or "edit" categories
+10.In the forum index.last post is only shown if there are answers
+11.Views an incrementing no matter if there are unique.
+
+
+Oписание на бъг в Jira opisvame 8/ Can Edit others answers by ajax call 
+
+
+Description
+
+By specification users shoud be able to edit only own answers.There is a way to bypass the restriction with ajax call
+
+Environment Windows 8.1 Mozila Firefox 40.0 with instaled Firebug
+
+
+Steps to reproduce
+
+1.Go to the forum index
+2.Register with a new user
+3.Post a topic
+4.Post an answer to this toic
+5.Navigate to the answer
+6.Click "Edit" button
+7.Navigate down to the edit box
+8.Right click "inspect element with Firebug" on "Edit answer" button
+9.Find "editAnswer()" onclick event and change the integer between parentheses with an existing answer id
+9.1 In order to find existing answer id ,query the DATABASE or navigate  to answer by other user 
+9.1.1 Right click on the "+" (upvote) button and click inspect element with Firebug
+9.1.2 Find the "upvoteAnswer()" onclick event - the last parameter is the answerd
+10.Populate the textarea with the new answer
+11.Click edit answer
+
+Expected result
+
+- The user unable to edit the others user's answer. The controler return "Success = 0" and nothing happen
+
+Actual result 
+
+- The other user's answer is truncated
+
+AJAX script 
+
+$post (*//192.168.111.102/Ultrapopfolk/answers/edit/id/31".(
+body: "HACKED ANSWER",
+'anti-forgery-token' : 'er48gbvj55574jfjggh483958948tjktrl'
+  war json =  $.parseJSON (response);
+ if (jason.success == 1) {
+     window.location = "//192.168.11.102/Ultrapopfolk/topics/view/id/32";
+}
+
+
+});
+
+
+Expected result
+
+-Controler returns Success = 0
+
+Actual result
+
+- The other answer's content is modifield to "HACKED ANSWER"

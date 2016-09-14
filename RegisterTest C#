@@ -1,8 +1,8 @@
-Ot Visual Studio izbirame:
+From Visual Studio start:
 
 Unit Test Project        Visual C#
 
-Pisem si ime na proekta i papkata syzdavame rabotnia plot.
+//Creaate folder on a desctopPisem si ime na proekta i papkata syzdavame rabotnia plot.
 
 1.using System,
 2.using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -13,7 +13,7 @@ Pisem si ime na proekta i papkata syzdavame rabotnia plot.
       [ TestClass]
       public class TestRegistration
    {
-    //2.pravim si  nov driver  sled instalaciata koito go krystim "driver" izbirame go ot padasto menu pyrvia
+    //2.pravim nov driver sled instalaciata -"driver" izbirame 
         private IWebDriver driver;
         
 
@@ -28,7 +28,7 @@ Pisem si ime na proekta i papkata syzdavame rabotnia plot.
 
              [TestMethod]
              public void TestSuccessfullRegister()     
-// 1. Pyrvo inicializirame driver seleniuma. ot  menu desen buton "Manage NuGet Packages"  i gore v tyrsa4kata pishem "webdriver" ,kato pusnem tyrsene ni izliza SeleniumWebDriver izbirame nego i go instalirame
+// 1. Pyrvo inicializirame driver seleniuma. ot  menu desen buton "Manage NuGet Packages"  i gore v tyrsa4kata pishem "webdriver" ,v tyrsene izliza SeleniumWebDriver - izbirame
 
              {
 
@@ -61,5 +61,5 @@ Pisem si ime na proekta i papkata syzdavame rabotnia plot.
      }
 }
 
-
+// Finish !
 
